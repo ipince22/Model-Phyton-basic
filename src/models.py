@@ -17,3 +17,13 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+class Person(db.Model):
+    personid = db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(80), unique=False, nullable=False)
+    pets = db.relationship('Pet',backref='owner',lazy='dynamic')
+
+class Pet(db.Model):
+    petid = db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(80), unique=False, nullable=False)
+    owner_id = db.Column(db.Integer,db.ForeignKey('person.personid'))
